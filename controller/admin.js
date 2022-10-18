@@ -1,6 +1,16 @@
 const Admin=require('../models/admin');
 const response=require('./response');
 const Role = require("../models/role");
+const ObjectId = require('mongoose').Types.ObjectId;
+
+function isValidObjectId(id){
+    if(ObjectId.isValid(id)){
+        if((String)(new ObjectId(id)) === id)
+            return true;
+        return false;
+    }
+    return false;
+}
 module.exports = {
     getAllAdmin:(req,res,next)=>{
         Admin.find({}).exec((err, docs) => {
@@ -9,15 +19,22 @@ module.exports = {
         })
     },
     createAdmin:(req,res,next)=>{
-        new Admin(req.body).save((err, doc) => {
-            if (doc) {
-                res.locals.item=doc;
-                response.ok(req, res, next,{});
-            } else {
-                res.locals.err=err;
-                response.error(req, res, next,{});
-            }
-        })
+        if(isValidObjectId(req.body.roleId)){
+            new Admin(req.body).save((err, doc) => {
+                if (doc) {
+                    res.locals.item=doc;
+                    response.ok(req, res, next,{});
+                } else {
+                    res.locals.err=err;
+                    response.error(req, res, next,{});
+                }
+            })
+        }else{
+            response.error(req, res, next,{
+                messages:['کد دسترسی اشتباه است']
+            });
+        }
+
     },
     getEachAdmin:(req,res,next)=>{
         Admin.findById(req.params.adminId).exec((err,doc)=>{
