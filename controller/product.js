@@ -12,6 +12,7 @@ module.exports = {
         })
     },
     createProduct:(req,res,next)=>{
+        req.body.adminId=res.locals.adminInfo._id;
         new Product(req.body).save((err, doc) => {
             if (doc) {
                 res.locals.item=doc;

@@ -11,12 +11,12 @@ module.exports = {
     error: (req, res, next,{
         status=400,
         err={},
-        message=[]
+        messages=[]
     }) => {
         res.status(status).send({
             status: false,
             data: err,
-            messages:message
+            messages:messages
         })
     }
 }

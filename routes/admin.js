@@ -1,7 +1,14 @@
 var express = require('express');
 const AdminController=require('../controller/admin');
+const apiMiddleware=require('../middleware/api');
 var router = express.Router();
-
+router.use([
+    apiMiddleware.checkBody,
+    apiMiddleware.isExistToken,
+    apiMiddleware.isExistAdmin,
+    apiMiddleware.isActiveAdmin,
+    apiMiddleware.isDeleteAdmin,
+])
 router.get('/',AdminController.getAllAdmin);
 router.post('/',AdminController.createAdmin);
 router.get('/:adminId',AdminController.getEachAdmin);

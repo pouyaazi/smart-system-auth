@@ -4,12 +4,8 @@ const Role = require("../models/role");
 module.exports = {
     getAllAdmin:(req,res,next)=>{
         Admin.find({}).exec((err, docs) => {
-            if (docs) {
-                res.locals.items = docs;
-                response.ok(req, res, next,{});
-            } else {
-                response.error(req, res, next,{});
-            }
+            res.locals.items = docs;
+            response.ok(req, res, next,{});
         })
     },
     createAdmin:(req,res,next)=>{

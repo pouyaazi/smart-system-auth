@@ -32,7 +32,7 @@ module.exports = {
             }
         })
     },
-    isExistUser: (req, res, next) => {
+    isExistAdmin: (req, res, next) => {
         if (res.locals.adminInfo) {
             next();
         } else {
@@ -41,12 +41,12 @@ module.exports = {
             })
         }
     },
-    isActiveUser: (req, res, next) => {
+    isActiveAdmin: (req, res, next) => {
         Admin
             .findById(res.locals.adminInfo._id, '-password')
             .exec((err, doc) => {
                 if (doc.isActive == true) {
-                    res.locals.adminInfo = doc.adminId;
+                    res.locals.adminInfo = doc;
                     next();
                 } else {
                     response.error(req, res, next, {
@@ -55,8 +55,8 @@ module.exports = {
                 }
             })
     },
-    isDeleteUser: (req, res, next) => {
-        if (res.locals.user.isDelete == false) {
+    isDeleteAdmin: (req, res, next) => {
+        if (res.locals.adminInfo.isDelete == false) {
             next();
         } else {
             response.error(req, res, next, {
