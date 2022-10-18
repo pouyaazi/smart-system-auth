@@ -8,6 +8,7 @@ router.use([
     apiMiddleware.isExistAdmin,
     apiMiddleware.isActiveAdmin,
     apiMiddleware.isDeleteAdmin,
+    apiMiddleware.isSuperAdmin,
 ])
 router.get('/',RoleController.getAllRole);
 router.post('/',RoleController.createRole);
