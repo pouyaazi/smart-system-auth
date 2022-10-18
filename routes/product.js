@@ -10,9 +10,9 @@ router.use([
     apiMiddleware.isDeleteAdmin,
 ])
 router.get('/',ProductController.getAllProduct);
-router.post('/',ProductController.createProduct);
-router.get('/:roleId',ProductController.getEachProduct);
-router.put('/:roleId',ProductController.updateEachProduct);
-router.delete('/:roleId',ProductController.deleteEachProduct);
+router.post('/',apiMiddleware.isSupportUser,ProductController.createProduct);
+router.get('/:productId',ProductController.getEachProduct);
+router.put('/:productId',apiMiddleware.isSuperAdmin,ProductController.updateEachProduct);
+router.delete('/:productId',ProductController.deleteEachProduct);
 
 module.exports = router;

@@ -24,7 +24,7 @@ module.exports = {
         })
     },
     getEachProduct:(req,res,next)=>{
-        Product.findById(req.params.adminId).exec((err,doc)=>{
+        Product.findById(req.params.productId).exec((err,doc)=>{
             if (doc) {
                 res.locals.item=doc;
                 response.ok(req, res, next,{});
@@ -36,7 +36,7 @@ module.exports = {
         })
     },
     updateEachProduct:(req,res,next)=>{
-        Product.findByIdAndUpdate(req.params.adminId,req.body, {
+        Product.findByIdAndUpdate(req.params.productId,req.body, {
             new: true,
             runValidators: true
         }).exec((err, doc) => {
@@ -51,7 +51,7 @@ module.exports = {
         })
     },
     deleteEachProduct:(req,res,next)=>{
-        Product.findByIdAndUpdate(req.params.adminId, {
+        Product.findByIdAndUpdate(req.params.productId, {
             isDelete: true,
             isActive: false,
         }, {

@@ -44,6 +44,7 @@ module.exports = {
     isActiveAdmin: (req, res, next) => {
         Admin
             .findById(res.locals.adminInfo._id, '-password')
+            .populate('roleId')
             .exec((err, doc) => {
                 if (doc.isActive == true) {
                     res.locals.adminInfo = doc;
@@ -61,6 +62,24 @@ module.exports = {
         } else {
             response.error(req, res, next, {
                 messages:['کاربر حذف شده است']
+            })
+        }
+    },
+    isSuperAdmin:(req,res,next)=>{
+        if (res.locals.adminInfo.roleId.title == 'admin') {
+            next();
+        } else {
+            response.error(req, res, next, {
+                messages:['برای دسترسی به این بخش باید سوپر ادمین باشید']
+            })
+        }
+    },
+    isSupportUser:(req,res,next)=>{
+        if (res.locals.adminInfo.roleId.title == 'support-user') {
+            next();
+        } else {
+            response.error(req, res, next, {
+                messages:['برای دسترسی به این بخش باید پشتیبانی باشید']
             })
         }
     }

@@ -17,7 +17,7 @@ let schema = new mongoose.Schema({
         },
         isActive: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         isDelete: {
             type: Boolean,
