@@ -6,16 +6,30 @@ var logger = require('morgan');
 
 
 const connection = require('./db');
-connection.once('open', () => {
+connection.once('open', async () => {
   console.log('Database connected Successfully');
   //Init
+  const Role=require('./models/role');
   const Admin=require('./models/admin');
-  new Admin({
-    username:'admin',
-    password:'admin',
-  }).save((err,doc)=>{
 
-  })
+  const adminRoll=await Role.findOneAndUpdate({
+    title:'admin',
+  },{
+    title:'admin',
+  },{
+    new:true,
+    upsert:true,
+  }).exec();
+
+  await Admin.findOneAndUpdate({
+    username: 'admin',
+  }, {
+    password: 'admin',
+    rollId: adminRoll._id,
+  }, {
+    new: true,
+    upsert: true,
+  }).exec();
 });
 connection.on('error', (err) => console.log('Error', err));
 
@@ -32,7 +46,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/auth', require('./routes/auth'));
-app.use('/api/v1/admin', require('./routes/auth'));
+app.use('/api/v1/admin', require('./routes/admin'));
+app.use('/api/v1/role', require('./routes/role'));
 app.use('/api/v1/product', require('./routes/auth'));
 
 // catch 404 and forward to error handler

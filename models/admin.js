@@ -12,7 +12,7 @@ let schema = new mongoose.Schema({
         firstName:String,
         lastName:String,
         birthDate:Date,
-        role:{
+        roleId:{
             type: config.ObjectId,
             ref: "role",
             //autopopulate: true
